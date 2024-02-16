@@ -23,7 +23,6 @@ http://3.13.43.122:8080/api/habits
 Through this project, several key lessons were learned:
 - Understanding and implementing RESTful API design principles.
 - Integrating Spring Boot with Spring Data JPA for database operations.
-- Handling HTTP requests and responses using Spring MVC.
 - Testing APIs using Postman for validation and debugging.
 
 ## API Mappings/Explanations
@@ -50,10 +49,10 @@ Through this project, several key lessons were learned:
 - Request Body:
   ```json
   {
-  	"userId": 1,
-  "name": "Exercise",
-  "description": "Go for a walk",
-  "completed": true
+    "userId": 1,
+    "name": "Exercise",
+    "description": "Go for a run",
+    "completed": true
   }
   ```
 ### DELETE /api/habits/{id}
