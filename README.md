@@ -27,39 +27,12 @@ Through this project, several key lessons were learned:
 
 ## API Mappings/Explanations
 
-### GET /api/habits
-- Retrieves a list of all habits.
-
-### GET /api/habits/{id}
-- Retrieves a habit by it's ID.
-
-### POST /api/habits
-- Creates a new habit.
-- Request Body:
-  ```json
-  {
-    "userId": 1,
-    "name": "Exercise",
-    "description": "Go for a run",
-    "completed": false
-  }
-  ```
-### PUT /api/habits/{id}
-- Updates an existing habit by it's id.
-- Request Body:
-  ```json
-  {
-    "userId": 1,
-    "name": "Exercise",
-    "description": "Go for a run",
-    "completed": true
-  }
-  ```
-### DELETE /api/habits/{id}
-- Deletes a habit by it's id.
-
-### PATCH /api/habits/{id}/complete
-- Marks a habit as complete by it's id.
-
-### PATCH /api/habits/{id}/incomplete
-- Marks a habit as incomplete by it's id.
+| HTTP Verb | URI                                   | Request Body                        | Response Body                     | Status Codes |
+|-----------|---------------------------------------|-------------------------------------|-----------------------------------|--------------|
+| GET       | `/api/habits`                         |                                     | List of all habits                | 200          |
+| GET       | `/api/habits/{id}`                    |                                     | Habit with the specified ID       | 200, 404     |
+| POST      | `/api/habits`                         | JSON of a new habit entity          | Created habit                     | 201, 400     |
+| PUT       | `/api/habits/{id}`                    | JSON of a new version of a habit    | Updated habit                     | 200, 404, 400|
+| DELETE    | `/api/habits/{id}`                    |                                     |                                   | 204, 404, 400|
+| PATCH     | `/api/habits/{id}/complete`           |                                     | Mark habit as completed           | 200, 404, 400|
+| PATCH     | `/api/habits/{id}/incomplete`         |                                     | Mark habit as incomplete          | 200, 404, 400|
