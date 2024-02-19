@@ -7,6 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema eventtrackerdb
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `eventtrackerdb` ;
 
 -- -----------------------------------------------------
 -- Schema eventtrackerdb
@@ -15,9 +16,11 @@ CREATE SCHEMA IF NOT EXISTS `eventtrackerdb` DEFAULT CHARACTER SET utf8 ;
 USE `eventtrackerdb` ;
 
 -- -----------------------------------------------------
--- Table `eventtrackerdb`.`habits`
+-- Table `habit`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `eventtrackerdb`.`habits` (
+DROP TABLE IF EXISTS `habit` ;
+
+CREATE TABLE IF NOT EXISTS `habit` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `name` VARCHAR(500) NOT NULL,
@@ -28,7 +31,12 @@ CREATE TABLE IF NOT EXISTS `eventtrackerdb`.`habits` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
-GRANT SELECT, INSERT, TRIGGER, UPDATE, DELETE ON TABLE `eventtrackerdb`.* TO 'project'@'localhost';
+SET SQL_MODE = '';
+DROP USER IF EXISTS project@localhost;
+SET SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+CREATE USER 'project'@'localhost' IDENTIFIED BY 'project';
+
+GRANT SELECT, INSERT, TRIGGER, UPDATE, DELETE ON TABLE * TO 'project'@'localhost';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -7,7 +7,7 @@ This project implements a RESTful API for a Habit Tracker application. The API a
 ### URL
 - For the AWS endpoints
 ```
-http://3.13.43.122:8080/api/habits
+http://3.13.43.122:8080/WhateAreYouDoing/api/habits
 ```
 
 ## Technologies Used
