@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	const addTaskButton = document.getElementById("addTaskButton");
 	const newTaskModal = document.getElementById("newTaskModal");
 	const closeNewTaskModalBtn = document.querySelector("#newTaskModal .close");
-
+	const templates = document.querySelectorAll('.template');
+	
 	let habitIdToUpdate = null;
 
 	// Function to fetch all tasks and display them in a table
@@ -173,6 +174,21 @@ document.addEventListener("DOMContentLoaded", function() {
 			})
 			.catch(error => console.error("Error creating task:", error));
 	});
+	
+	//Event listener for the templates
+	templates.forEach(template => {
+        template.addEventListener('click', function(event) {
+			event.preventDefault();
+			
+            const title = template.dataset.title;
+            const description = template.dataset.description;
+
+            newTaskForm.elements.newName.value = title;
+            newTaskForm.elements.newDescription.value = description;
+
+            newTaskModal.style.display = 'block';
+        });
+    });
 
 	// Event listener for moving task up
 	taskList.addEventListener("click", function(event) {
@@ -217,8 +233,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 
 	// Function to send PUT requests to update task order in the database
-	function updateTaskOrder(taskId, relatedTaskId) {
-		fetch(`api/habits/${taskId}/reorder/${relatedTaskId}`, {
+	function updateTaskOrder(habitId, relatedHabitId) {
+		fetch(`api/habits/${habitId}/reorder/${relatedHabitId}`, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json"

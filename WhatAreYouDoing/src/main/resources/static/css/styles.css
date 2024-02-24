@@ -89,3 +89,37 @@ th {
     text-decoration: none;
     cursor: pointer;
 }
+
+/* Styles for the templates */
+.template {
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.template img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.template h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.template p {
+    font-size: 16px;
+}
+
+/* Styles for template rows */
+.templateRow {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.templateRow .template {
+    flex: 0 0 calc(50% - 20px); /* Two tiles per row */
+    margin-right: 20px;
+}
