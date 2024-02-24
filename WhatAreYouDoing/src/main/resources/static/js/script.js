@@ -1,162 +1,236 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const taskList = document.getElementById("taskList");
-    const updateTaskModal = document.getElementById("updateTaskModal");
-    const updateTaskForm = document.getElementById("updateTaskForm");
-    const closeUpdateTaskModalBtn = document.querySelector("#updateTaskModal .close");
-    const addTaskButton = document.getElementById("addTaskButton");
-    const newTaskModal = document.getElementById("newTaskModal");
-    const closeNewTaskModalBtn = document.querySelector("#newTaskModal .close");
+	const taskList = document.getElementById("taskList");
+	const updateTaskModal = document.getElementById("updateTaskModal");
+	const updateTaskForm = document.getElementById("updateTaskForm");
+	const closeUpdateTaskModalBtn = document.querySelector("#updateTaskModal .close");
+	const addTaskButton = document.getElementById("addTaskButton");
+	const newTaskModal = document.getElementById("newTaskModal");
+	const closeNewTaskModalBtn = document.querySelector("#newTaskModal .close");
 
-    let habitIdToUpdate = null;
+	let habitIdToUpdate = null;
 
-    // Function to fetch all tasks and display them in a table
-    function fetchAndDisplayTasks() {
-        fetch("api/habits")
-            .then(response => response.json())
-            .then(tasks => {
-                taskList.innerHTML = ""; // Clear previous tasks
-                tasks.forEach(task => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
+	// Function to fetch all tasks and display them in a table
+	function fetchAndDisplayTasks() {
+		fetch("api/habits")
+			.then(response => response.json())
+			.then(tasks => {
+				taskList.innerHTML = ""; // Clear previous tasks
+				tasks.forEach(task => {
+					const row = document.createElement("tr");
+					row.innerHTML = `
                         <td>${task.name}</td>
                         <td>${task.description}</td>
                         <td>${task.completed ? 'Yes' : 'No'}</td>
                         <td>
                             <button class="editBtn">Edit</button>
                             <input type="checkbox" class="completeCheckbox" data-task-id="${task.id}" ${task.completed ? 'checked' : ''}>
+                            <button class="upBtn">↑</button>
+                            <button class="downBtn">↓</button>
                         </td>
                     `;
-                    taskList.appendChild(row);
-                });
-            })
-            .catch(error => console.error("Error fetching tasks:", error));
-    }
+					taskList.appendChild(row);
+				});
+				// Disable/enable buttons based on task position
+				updateButtonStates();
+			})
+			.catch(error => console.error("Error fetching tasks:", error));
+	}
 
-    // Fetch and display tasks when the page loads
-    fetchAndDisplayTasks();
+	// Fetch and display tasks when the page loads
+	fetchAndDisplayTasks();
 
-    // Event listener for marking a task as completed
-    taskList.addEventListener("change", function(event) {
-        if (event.target.classList.contains("completeCheckbox")) {
-            const taskId = event.target.getAttribute("data-task-id");
-            const completed = event.target.checked;
+	// Function to disable/enable buttons based on task position
+	function updateButtonStates() {
+		const taskRows = document.querySelectorAll("#taskList tr");
+		taskRows.forEach((taskRow, index) => {
+			const upBtn = taskRow.querySelector(".upBtn");
+			const downBtn = taskRow.querySelector(".downBtn");
+			upBtn.disabled = index === 0;
+			downBtn.disabled = index === taskRows.length - 1;
+		});
+	}
 
-            fetch(`api/habits/${taskId}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ completed })
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Failed to update task status");
-                    }
-                    // Refresh the task list after successful update
-                    fetchAndDisplayTasks();
-                })
-                .catch(error => console.error("Error updating task status:", error));
-        }
-    });
+	// Event listener for marking a task as completed
+	taskList.addEventListener("change", function(event) {
+		if (event.target.classList.contains("completeCheckbox")) {
+			const taskId = event.target.getAttribute("data-task-id");
+			const completed = event.target.checked;
 
-    // Event listener for editing a task
-    taskList.addEventListener("click", function(event) {
-        if (event.target.classList.contains("editBtn")) {
-            const taskRow = event.target.closest("tr");
-            habitIdToUpdate = taskRow.querySelector(".completeCheckbox").getAttribute("data-task-id");
-            const taskName = taskRow.cells[0].textContent;
-            const taskDescription = taskRow.cells[1].textContent;
+			fetch(`api/habits/${taskId}`, {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({ completed })
+			})
+				.then(response => {
+					if (!response.ok) {
+						throw new Error("Failed to update task status");
+					}
+					// Refresh the task list after successful update
+					fetchAndDisplayTasks();
+				})
+				.catch(error => console.error("Error updating task status:", error));
+		}
+	});
 
-            // Fill the update form with the task's current name and description
-            updateTaskForm.elements.updateName.value = taskName;
-            updateTaskForm.elements.updateDescription.value = taskDescription;
+	// Event listener for editing a task
+	taskList.addEventListener("click", function(event) {
+		if (event.target.classList.contains("editBtn")) {
+			const taskRow = event.target.closest("tr");
+			habitIdToUpdate = taskRow.querySelector(".completeCheckbox").getAttribute("data-task-id");
+			const taskName = taskRow.cells[0].textContent;
+			const taskDescription = taskRow.cells[1].textContent;
 
-            // Show the update task modal
-            updateTaskModal.style.display = "block";
-        }
-    });
-    closeUpdateTaskModalBtn.addEventListener("click", function() {
-        updateTaskModal.style.display = "none";
-    });
+			// Fill the update form with the task's current name and description
+			updateTaskForm.elements.updateName.value = taskName;
+			updateTaskForm.elements.updateDescription.value = taskDescription;
 
-    // Event listener for submitting the update task form
-    updateTaskForm.addEventListener("submit", function(event) {
-        event.preventDefault();
+			// Show the update task modal
+			updateTaskModal.style.display = "block";
+		}
+	});
+	closeUpdateTaskModalBtn.addEventListener("click", function() {
+		updateTaskModal.style.display = "none";
+	});
 
-        const updatedName = updateTaskForm.elements.updateName.value;
-        const updatedDescription = updateTaskForm.elements.updateDescription.value;
+	// Event listener for submitting the update task form
+	updateTaskForm.addEventListener("submit", function(event) {
+		event.preventDefault();
 
-        // Send PUT request to update task details
-        fetch(`api/habits/${habitIdToUpdate}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name: updatedName,
-                description: updatedDescription
-            })
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Failed to update task");
-                }
-                return response.json(); // Parse the JSON response
-            })
-            .then(updatedTask => {
-                console.log("Updated Task:", updatedTask);
-                // Close the update task modal
-                updateTaskModal.style.display = "none";
-                // Fetch and display tasks to update the table
-                fetchAndDisplayTasks();
-            })
-            .catch(error => console.error("Error updating task:", error));
+		const updatedName = updateTaskForm.elements.updateName.value;
+		const updatedDescription = updateTaskForm.elements.updateDescription.value;
 
-    });
+		// Send PUT request to update task details
+		fetch(`api/habits/${habitIdToUpdate}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				name: updatedName,
+				description: updatedDescription
+			})
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error("Failed to update task");
+				}
+				return response.json(); // Parse the JSON response
+			})
+			.then(updatedTask => {
+				console.log("Updated Task:", updatedTask);
+				// Close the update task modal
+				updateTaskModal.style.display = "none";
+				// Fetch and display tasks to update the table
+				fetchAndDisplayTasks();
+			})
+			.catch(error => console.error("Error updating task:", error));
 
-    // Event listener for clicking the plus button to add a new task
-    addTaskButton.addEventListener("click", function() {
-        // Display the new task modal
-        newTaskModal.style.display = "block";
-    });
+	});
 
-    closeNewTaskModalBtn.addEventListener("click", function() {
-        // Close the new task modal when the close button is clicked
-        newTaskModal.style.display = "none";
-    });
+	// Event listener for clicking the plus button to add a new task
+	addTaskButton.addEventListener("click", function() {
+		// Display the new task modal
+		newTaskModal.style.display = "block";
+	});
 
-    // Event listener for submitting the new task form
-    newTaskForm.addEventListener("submit", function(event) {
-        event.preventDefault();
+	closeNewTaskModalBtn.addEventListener("click", function() {
+		// Close the new task modal when the close button is clicked
+		newTaskModal.style.display = "none";
+	});
 
-        const newName = newTaskForm.elements.newName.value;
-        const newDescription = newTaskForm.elements.newDescription.value;
+	// Event listener for submitting the new task form
+	newTaskForm.addEventListener("submit", function(event) {
+		event.preventDefault();
 
-        // Send POST request to create a new task
-        fetch("api/habits", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name: newName,
-                description: newDescription
-            })
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Failed to create task");
-                }
-                return response.json(); // Parse the JSON response
-            })
-            .then(newTask => {
-                console.log("New Task:", newTask);
-                // Close the new task modal
-                newTaskModal.style.display = "none";
-                // Fetch and display tasks to update the table
-                fetchAndDisplayTasks();
-            })
-            .catch(error => console.error("Error creating task:", error));
-    });
+		const newName = newTaskForm.elements.newName.value;
+		const newDescription = newTaskForm.elements.newDescription.value;
 
+		// Send POST request to create a new task
+		fetch("api/habits", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				name: newName,
+				description: newDescription
+			})
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error("Failed to create task");
+				}
+				return response.json(); // Parse the JSON response
+			})
+			.then(newTask => {
+				console.log("New Task:", newTask);
+				// Close the new task modal
+				newTaskModal.style.display = "none";
+				// Fetch and display tasks to update the table
+				fetchAndDisplayTasks();
+			})
+			.catch(error => console.error("Error creating task:", error));
+	});
+
+	// Event listener for moving task up
+	taskList.addEventListener("click", function(event) {
+		if (event.target.classList.contains("upBtn")) {
+			const taskRow = event.target.closest("tr");
+			const index = Array.from(taskRow.parentElement.children).indexOf(taskRow);
+			if (index > 0) {
+				const taskId = taskRow.querySelector(".completeCheckbox").getAttribute("data-task-id");
+				const previousTaskId = taskRow.previousElementSibling.querySelector(".completeCheckbox").getAttribute("data-task-id");
+
+				// Swap the tasks in the UI
+				taskRow.parentElement.insertBefore(taskRow, taskRow.previousElementSibling);
+
+				// Send PUT requests to update task order in the database
+				updateTaskOrder(taskId, previousTaskId);
+
+				// Disable/enable buttons based on task position
+				updateButtonStates();
+			}
+		}
+	});
+
+	// Event listener for moving task down
+	taskList.addEventListener("click", function(event) {
+		if (event.target.classList.contains("downBtn")) {
+			const taskRow = event.target.closest("tr");
+			const index = Array.from(taskRow.parentElement.children).indexOf(taskRow);
+			if (index < taskList.childElementCount - 1) {
+				const taskId = taskRow.querySelector(".completeCheckbox").getAttribute("data-task-id");
+				const nextTaskId = taskRow.nextElementSibling.querySelector(".completeCheckbox").getAttribute("data-task-id");
+
+				// Swap the tasks in the UI
+				taskRow.parentElement.insertBefore(taskRow.nextElementSibling, taskRow);
+
+				// Send PUT requests to update task order in the database
+				updateTaskOrder(nextTaskId, taskId);
+
+				// Disable/enable buttons based on task position
+				updateButtonStates();
+			}
+		}
+	});
+
+	// Function to send PUT requests to update task order in the database
+	function updateTaskOrder(taskId, relatedTaskId) {
+		fetch(`api/habits/${taskId}/reorder/${relatedTaskId}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error("Failed to update task order");
+				}
+				// Refresh the task list after successful update
+				fetchAndDisplayTasks();
+			})
+			.catch(error => console.error("Error updating task order:", error));
+	}
 });
