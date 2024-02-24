@@ -12,7 +12,6 @@ public interface HabitService {
 	Habit create(Habit habit);
 	Habit update(int id, Habit habit);
 	boolean delete(int id);
-	boolean markCompleted(int id);
-	boolean markIncomplete(int id);
+	boolean updateCompletedStatus(int habitId, Boolean completed);
 
 }

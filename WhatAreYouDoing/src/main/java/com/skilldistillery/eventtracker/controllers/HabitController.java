@@ -1,6 +1,7 @@
 package com.skilldistillery.eventtracker.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,24 +66,13 @@ public class HabitController {
 		}
 	}
 
-	@PatchMapping("{id}/complete")
-	public ResponseEntity<Void> markCompleted(@PathVariable("id") int id) {
-		boolean markedCompleted = habitService.markCompleted(id);
-		if (markedCompleted) {
+	@PatchMapping("{id}")
+	public ResponseEntity<Void> updateCompletedStatus(@PathVariable("id") int id, @RequestBody Map<String, Boolean> request) {
+		boolean updated = habitService.updateCompletedStatus(id, request.get("completed"));
+		if(updated) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-
-	@PatchMapping("{id}/incomplete")
-	public ResponseEntity<Void> markIncomplete(@PathVariable("id") int id) {
-		boolean markedIncomplete = habitService.markIncomplete(id);
-		if (markedIncomplete) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
-
 }

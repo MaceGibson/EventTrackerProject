@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Are You Doing</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/script.js"></script>
+</head>
+<body>
+    <header>
+        <h1>What Are You Doing</h1>
+        <h2>Your Task List</h2>
+    </header>
+
+    <main>
+        <table id="taskTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Completed</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="taskList">
+                <!-- Tasks will be dynamically inserted here -->
+            </tbody>
+        </table>
+        <button id="addTaskButton">+</button>
+    </main>
+
+    <!-- Task Update Popup -->
+   <div id="updateTaskModal" class="modal">
+   		<div class="modal-content">
+	        <span class="close">&times;</span>
+	        <h2>Update Task</h2>
+	        <form id="updateTaskForm">
+	            <label for="updateName">Name:</label>
+	            <input type="text" id="updateName" name="updateName" required><br>
+	            <label for="updateDescription">Description:</label>
+	            <input type="text" id="updateDescription" name="updateDescription" required><br>
+	            <button type="submit">Update</button>
+	        </form>
+    	</div>
+	</div>
+
+    <!-- New Task Popup -->
+    <div id="newTaskModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>New Task</h2>
+            <form id="newTaskForm">
+                <label for="newName">Name:</label>
+                <input type="text" id="newName" name="newName" required><br>
+                <label for="newDescription">Description:</label>
+                <input type="text" id="newDescription" name="newDescription" required><br>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

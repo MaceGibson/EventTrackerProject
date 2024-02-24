@@ -84,7 +84,7 @@ public class Habit {
 		this.date = date;
 	}
 
-	public boolean completed() {
+	public boolean getCompleted() {
 		return completed;
 	}
 

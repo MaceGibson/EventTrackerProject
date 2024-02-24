@@ -41,15 +41,14 @@ public class HabitServiceImpl implements HabitService {
 
 	@Override
 	public Habit update(int id, Habit habit) {
-		Habit existingHabit = habitRepo.findById(id);
-		if (existingHabit != null) {
-			habit.setId(id);
-			habit.setName(existingHabit.getName());
-			habit.setDescription(existingHabit.getDescription());
-			habit.setDate(LocalDateTime.now());
-			return habitRepo.save(habit);
-		}
-		return null;
+	    Habit existingHabit = habitRepo.findById(id);
+	    if (existingHabit != null) {
+	        existingHabit.setName(habit.getName());
+	        existingHabit.setDescription(habit.getDescription());
+	        existingHabit.setDate(LocalDateTime.now());
+	        return habitRepo.save(existingHabit);
+	    }
+	    return null;
 	}
 
 	@Override
@@ -63,24 +62,14 @@ public class HabitServiceImpl implements HabitService {
 	}
 
 	@Override
-	public boolean markCompleted(int id) {
-		Habit habit = habitRepo.findById(id);
-		if (habit != null) {
-			habit.setCompleted(true);
-			habitRepo.saveAndFlush(habit);
-			return true;
-		}
-		return false; // Habit with given id not found
+	public boolean updateCompletedStatus(int habitId, Boolean completed) {
+	    Habit habit = habitRepo.findById(habitId);
+	    if (habit != null && completed != null) {
+	        habit.setCompleted(completed);
+	        habitRepo.save(habit);
+	        return true;
+	    }
+	    return false;
 	}
-
-	@Override
-	public boolean markIncomplete(int id) {
-		Habit habit = habitRepo.findById(id);
-		if (habit != null) {
-			habit.setCompleted(false);
-			habitRepo.saveAndFlush(habit);
-			return true;
-		}
-		return false; // Habit with given id not found
-	}
+	
 }
