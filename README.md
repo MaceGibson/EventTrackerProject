@@ -66,4 +66,4 @@ http://3.13.43.122:8080/WhatAreYouDoing
 - I wish I would have taken the time to allow for the reorganization of the list items to reflect on the database.
 - Could tweak the layout of the modal to be more modern styled.
 - Had this been a multi-table project would need to add user table for user login, this would make the page more practical allowing users to have their own respective tables.
-- Future implementations could perhaps look into the more socail aspects to allow users to coordinate their plans with others.
+- Future implementations could perhaps look into the more social aspects to allow users to coordinate their plans with others.
