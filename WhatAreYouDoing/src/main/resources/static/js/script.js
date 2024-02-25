@@ -54,10 +54,10 @@ document.addEventListener("DOMContentLoaded", function() {
 	// Event listener for marking a task as completed
 	taskList.addEventListener("change", function(event) {
 		if (event.target.classList.contains("completeCheckbox")) {
-			const taskId = event.target.getAttribute("data-task-id");
+			const habitId = event.target.getAttribute("data-task-id");
 			const completed = event.target.checked;
 
-			fetch(`api/habits/${taskId}`, {
+			fetch(`api/habits/${habitId}`, {
 				method: "PATCH",
 				headers: {
 					"Content-Type": "application/json"
@@ -140,6 +140,28 @@ document.addEventListener("DOMContentLoaded", function() {
 		// Close the new task modal when the close button is clicked
 		newTaskModal.style.display = "none";
 	});
+	
+	// Event listener for clicking the delete button in the update task modal
+    const deleteTaskBtn = document.getElementById("deleteTaskBtn");
+    deleteTaskBtn.addEventListener("click", function() {
+        if (habitIdToUpdate) {
+            if (confirm("Are you sure you want to delete this task?")) {
+                fetch(`api/habits/${habitIdToUpdate}`, {
+                    method: "DELETE"
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to delete task");
+                    }
+                    // Close the update task modal
+                    updateTaskModal.style.display = "none";
+                    // Fetch and display tasks to update the table
+                    fetchAndDisplayTasks();
+                })
+                .catch(error => console.error("Error deleting task:", error));
+            }
+        }
+    });
 
 	// Event listener for submitting the new task form
 	newTaskForm.addEventListener("submit", function(event) {
@@ -196,14 +218,14 @@ document.addEventListener("DOMContentLoaded", function() {
 			const taskRow = event.target.closest("tr");
 			const index = Array.from(taskRow.parentElement.children).indexOf(taskRow);
 			if (index > 0) {
-				const taskId = taskRow.querySelector(".completeCheckbox").getAttribute("data-task-id");
-				const previousTaskId = taskRow.previousElementSibling.querySelector(".completeCheckbox").getAttribute("data-task-id");
+				const habitId = taskRow.querySelector(".completeCheckbox").getAttribute("data-task-id");
+				const previousHabitId = taskRow.previousElementSibling.querySelector(".completeCheckbox").getAttribute("data-task-id");
 
 				// Swap the tasks in the UI
 				taskRow.parentElement.insertBefore(taskRow, taskRow.previousElementSibling);
 
 				// Send PUT requests to update task order in the database
-				updateTaskOrder(taskId, previousTaskId);
+				updateTaskOrder(habitId, previousHabitId);
 
 				// Disable/enable buttons based on task position
 				updateButtonStates();
@@ -217,14 +239,14 @@ document.addEventListener("DOMContentLoaded", function() {
 			const taskRow = event.target.closest("tr");
 			const index = Array.from(taskRow.parentElement.children).indexOf(taskRow);
 			if (index < taskList.childElementCount - 1) {
-				const taskId = taskRow.querySelector(".completeCheckbox").getAttribute("data-task-id");
-				const nextTaskId = taskRow.nextElementSibling.querySelector(".completeCheckbox").getAttribute("data-task-id");
+				const habitId = taskRow.querySelector(".completeCheckbox").getAttribute("data-task-id");
+				const nextHabitId = taskRow.nextElementSibling.querySelector(".completeCheckbox").getAttribute("data-task-id");
 
 				// Swap the tasks in the UI
 				taskRow.parentElement.insertBefore(taskRow.nextElementSibling, taskRow);
 
 				// Send PUT requests to update task order in the database
-				updateTaskOrder(nextTaskId, taskId);
+				updateTaskOrder(nextHabitId, habitId);
 
 				// Disable/enable buttons based on task position
 				updateButtonStates();

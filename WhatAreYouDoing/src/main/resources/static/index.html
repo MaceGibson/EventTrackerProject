@@ -13,12 +13,11 @@
     <header>
         <div class="header-content">
             <h1>What Are You Doing</h1>
-            <br>
-            <h2>Your Task List</h2>
         </div>
     </header>
 
     <main class="container">
+            <h2 style="text-align: center; padding: 1%">Your Task List</h2>
         <table id="taskTable" class="table">
             <thead>
                 <tr>
@@ -41,10 +40,10 @@
                         <h3>Exercise</h3>
                         <p>Engage in physical activity to stay fit.</p>
                     </div>
-                    <div class="template col-md-6" data-title="Hiking" data-description="Explore nature and enjoy the outdoors by going on a hike.">
-                    	<img src="css/hike.png" alt="Hiking Image">
-                        <h3>Hiking</h3>
-                        <p>Explore nature and enjoy the outdoors by going on a hike.</p>
+                    <div class="template col-md-6" data-title="Walk Dog" data-description="Explore nature and enjoy the outdoors by taking your dog for a walk.">
+                    	<img src="css/dog.png" alt="Dog Image">
+                        <h3>Walk Dog</h3>
+                        <p>Explore nature and enjoy the outdoors by taking your dog for a walk.</p>
                     </div>
                     
                     <div class="template col-md-6" data-title="Vacation" data-description="Take a break and get away for a vacation.">
@@ -98,11 +97,12 @@
             <span class="close">&times;</span>
             <h2>Update Task</h2>
             <form id="updateTaskForm">
-                <label for="updateName">Name:</label> <input type="text"
-                    id="updateName" name="updateName" required><br> <label
-                    for="updateDescription">Description:</label> <input type="text"
-                    id="updateDescription" name="updateDescription" required><br>
+                <label for="updateName">Name:</label>
+                <input type="text" id="updateName" name="updateName" required><br>
+                <label for="updateDescription">Description:</label>
+                <input type="text" id="updateDescription" name="updateDescription" required><br>
                 <button type="submit">Update</button>
+                <button type="button" id="deleteTaskBtn">Delete</button>
             </form>
         </div>
     </div>
@@ -113,10 +113,10 @@
             <span class="close">&times;</span>
             <h2>New Task</h2>
             <form id="newTaskForm">
-                <label for="newName">Name:</label> <input type="text" id="newName"
-                    name="newName" required><br> <label
-                    for="newDescription">Description:</label> <input type="text"
-                    id="newDescription" name="newDescription" required><br>
+                <label for="newName">Name:</label>
+                <input type="text" id="newName" name="newName" required><br>
+                <label for="newDescription">Description:</label>
+                <input type="text" id="newDescription" name="newDescription" required><br>
                 <button type="submit">Add</button>
             </form>
         </div>
