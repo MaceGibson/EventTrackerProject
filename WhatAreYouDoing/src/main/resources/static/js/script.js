@@ -25,8 +25,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         <td>
                             <button class="editBtn">Edit</button>
                             <input type="checkbox" class="completeCheckbox" data-task-id="${task.id}" ${task.completed ? 'checked' : ''}>
-                            <button class="upBtn">↑</button>
-                            <button class="downBtn">↓</button>
+                            <button class="upBtn">&#9650;</button>
+                            <button class="downBtn">&#9660;</button>
                         </td>
                     `;
 					taskList.appendChild(row);
