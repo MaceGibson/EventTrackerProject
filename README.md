@@ -47,8 +47,10 @@ This was the second phase of this project.  Here the front-end was both hardcode
 ## URL
 - For the AWS deployed application
 ```
-http://3.13.43.122:8080/WhatAreYouDoing
+http://3.13.43.122:8080/WhatAreYouDoing/index.html
 ```
+
+- NOTE: this will display an empty table as I need to implement the user login for this as the database was changed to allow for angular.
 
 ## Technologies Used
 
@@ -67,3 +69,24 @@ http://3.13.43.122:8080/WhatAreYouDoing
 - Could tweak the layout of the modal to be more modern styled.
 - Had this been a multi-table project would need to add user table for user login, this would make the page more practical allowing users to have their own respective tables.
 - Future implementations could perhaps look into the more social aspects to allow users to coordinate their plans with others.
+
+
+# EventTrackerProject - Angular Front-end
+
+## Description
+
+This is the final phase where angular was brought to the equation.  From here futher iterations will be exploring angular.
+
+## URL
+```
+http://3.13.43.122:8080/WhatAreYouDoing
+```
+
+## Technologies Used
+
+- Angular
+
+## Lessons Learned
+
+- Adding authentication is not easy and will break things until fully realized.
+- Generating components, models, pipes, and services with angular.
