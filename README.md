@@ -47,7 +47,7 @@ This was the second phase of this project.  Here the front-end was both hardcode
 ## URL
 - For the AWS deployed application
 ```
-http://3.13.43.122:8080/WhatAreYouDoing/index.html
+http://3.13.43.122:8080/WhatAreYouDoing/indexStatic.html
 ```
 
 - NOTE: this will display an empty table as I need to implement the user login for this as the database was changed to allow for angular.
