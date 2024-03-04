@@ -1,0 +1,82 @@
+<h1>{{ title }} <span class="badge text-bg-primary" [ngClass]="{
+  'bg-danger': getHabitCount() > 10,
+  'bg-warning': getHabitCount() > 5 && getHabitCount() <= 10,
+  'bg-success': getHabitCount() <= 5
+}">{{ getHabitCount() }}</span></h1>
+
+<div *ngIf="!selected && !editHabit">
+  <table class="table table-striped table-hover">
+    <thead class="table-dark thead-dark" >
+      <tr>
+        <th>Task</th>
+        <th>Description</th>
+        <th></th>
+        <th>Completed</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let habit of habits | incomplete: showComplete" [ngClass]="{'completed': habit.completed }" class="table-light">
+        <td (click)="displayHabit(habit)">{{habit.name}}</td>
+        <td>{{habit.description}}</td>
+        <td><input type="checkbox" [(ngModel)]="habit.completed" /></td>
+        <td>{{habit.completed}}</td>
+        <td><input type="button" value="X" class="btn btn-danger mt-2" (click)="deleteHabit(habit)"/></td>
+      </tr>
+    </tbody>
+  </table>
+  <input type="checkbox" [(ngModel)]="showComplete" />Show Completed
+  <form>
+    <input type="text" [(ngModel)]="newHabit.name" class="form-control" placeholder="task name" />
+    <input type="text" [(ngModel)]="newHabit.description" class="form-control" placeholder="description" />
+    <input type="submit" value="Add Task" (click)="addHabit()" class="btn btn-primary mt-2" />
+  </form>
+</div>
+<div *ngIf="selected || editHabit">
+  <div *ngIf="editHabit">
+    <h2>Edit Task</h2>
+    <form>
+      <div class="form-group">
+        <label for="task">Task</label>
+        <input
+          type="text"
+          name="task"
+          [(ngModel)]="editHabit.name"
+          class="form-control"
+        />
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input
+          type="text"
+          name="description"
+          [(ngModel)]="editHabit.description"
+          class="form-control"
+        />
+      </div>
+      <div class="form-check">
+        <input
+          type="checkbox"
+          name="completed"
+          [(ngModel)]="editHabit.completed"
+          class="form-check-input"
+        />
+        <label class="form-check-label" for="completed">Completed</label>
+      </div>
+      <button type="button" (click)="cancelEdit()" class="btn btn-danger mt-2">
+        Cancel
+      </button>
+      <button type="button" (click)="updateHabit()" class="btn btn-success mt-2">
+        Save
+      </button>
+    </form>
+  </div>
+
+  <div *ngIf="selected && !editHabit">
+    <h2>{{ selected.name }}</h2>
+    <p>{{ selected.description }}</p>
+    <p>Completed: {{ selected.completed ? "true" : "false" }}</p>
+    <button (click)="setEditHabit()" class="btn btn-primary">Edit</button>
+    <button (click)="displayTable()" class="btn btn-danger">Back</button>
+  </div>
+</div>

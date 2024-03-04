@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" [routerLink]="['/home']">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" (click)="isCollapsed = !isCollapsed"
+    [attr.aria-expanded]="!isCollapsed">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav" [ngbCollapse]='isCollapsed'>
+    <ul class="navbar-nav">
+
+
+      <li class="nav-item" *ngIf="isLoggedIn()">
+        <a class="nav-link" [routerLink]="['/habits']">Task List</a>
+      </li>
+      <li *ngIf="isLoggedIn()">
+        <app-logout></app-logout>
+      </li>
+      <li *ngIf="!isLoggedIn()">
+        <a class="nav-link" [routerLink]="['/login']">Login</a>
+      </li>
+      <li *ngIf="!isLoggedIn()">
+        <a class="nav-link" [routerLink]="['/register']">Register</a>
+      </li>
+    </ul>
+  </div>
+</nav>
