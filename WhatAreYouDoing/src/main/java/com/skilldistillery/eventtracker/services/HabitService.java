@@ -5,13 +5,10 @@ import java.util.List;
 import com.skilldistillery.eventtracker.entities.Habit;
 
 public interface HabitService {
-	List<Habit> findByTitleOrDescription(String keyword);
-	Habit findById(int id);
-	List<Habit> findByCompleted(boolean completed);
-	List<Habit> findAll();
-	Habit create(Habit habit);
-	Habit update(int id, Habit habit);
-	boolean delete(int id);
-	boolean updateCompletedStatus(int habitId, Boolean completed);
+	List<Habit> index(String username);
+	Habit show(String username, int id);
+	Habit create(String username, Habit habit);
+	Habit update(String username, int id, Habit habit);
+	boolean destroy(String username, int id);
 
 }

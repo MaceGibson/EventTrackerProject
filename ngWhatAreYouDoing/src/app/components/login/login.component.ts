@@ -19,7 +19,7 @@ export class LoginComponent {
   login(user: User) {
     this.authService.login(user.username, user.password).subscribe({
       next: (loggedInUser) => {
-        this.router.navigateByUrl('/todo');
+        this.router.navigateByUrl('/habits');
       },
       error: (failedLogin) => {
         console.error(failedLogin);

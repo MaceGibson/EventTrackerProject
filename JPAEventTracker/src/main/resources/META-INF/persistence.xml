@@ -4,6 +4,7 @@
 	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
    
     <class>com.skilldistillery.eventtracker.entities.Habit</class>
+    <class>com.skilldistillery.eventtracker.entities.User</class>
     
 
     <properties>

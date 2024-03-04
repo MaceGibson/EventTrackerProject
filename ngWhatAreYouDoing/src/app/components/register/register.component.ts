@@ -21,7 +21,7 @@ export class RegisterComponent {
       next: (newUser) => {
         this.authService.login(user.username, user.password).subscribe({
           next: (loggedInUser) => {
-            this.router.navigateByUrl('/todo');
+            this.router.navigateByUrl('/habits');
           },
           error: (problem) => {
             console.error(

@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './habit-list.component.css'
 })
 export class HabitListComponent implements OnInit {
-  title = 'ngHabit';
+  title = 'Task List';
   selected: Habit | null = null;
   newHabit: Habit = new Habit();
   editHabit: Habit | null = null;

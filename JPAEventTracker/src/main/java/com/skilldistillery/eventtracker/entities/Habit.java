@@ -10,34 +10,35 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Habit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(name = "user_id")
-	private int userId;
-	
 	private String name;
-	
 	private String description;
-	
+	private boolean completed;
 	@CreationTimestamp
 	private LocalDateTime date;
-	
-	private boolean completed;
-	
+
+	@Column(name = "complete_date")
+	private String completeDate;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	public Habit() {
 		super();
 	}
 
-	public Habit(int id, int userId, String name, String description, LocalDateTime date, boolean completed) {
+	public Habit(int id, User user, String name, String description, LocalDateTime date, boolean completed) {
 		super();
 		this.id = id;
-		this.userId = userId;
+		this.user = user;
 		this.name = name;
 		this.description = description;
 		this.date = date;
@@ -52,12 +53,12 @@ public class Habit {
 		this.id = id;
 	}
 
-	public int getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getName() {
@@ -111,13 +112,12 @@ public class Habit {
 
 	@Override
 	public String toString() {
-		return "Habit [id=" + id + ", userId=" + userId + ", name=" + name + ", description=" + description + ", date="
+		return "Habit [id=" + id + "user= " + user.getUsername() + ", name=" + name + ", description=" + description + ", date="
 				+ date + ", completed=" + completed + "]";
 	}
 
 	public void addComment(String comment) {
-		
-		
+
 	}
-	
+
 }
