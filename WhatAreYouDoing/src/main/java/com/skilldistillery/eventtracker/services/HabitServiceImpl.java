@@ -22,7 +22,6 @@ public class HabitServiceImpl implements HabitService {
 	@Override
 	public List<Habit> index(String username) {
 		List<Habit> habits = habitRepo.findByUser_Username(username);
-		System.out.println(habits);
 		
 		return habits;
 	}

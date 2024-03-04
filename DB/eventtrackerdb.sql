@@ -54,12 +54,7 @@ CREATE TABLE IF NOT EXISTS `habit` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SET SQL_MODE = '';
-DROP USER IF EXISTS project@localhost;
-SET SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-CREATE USER 'project'@'localhost' IDENTIFIED BY 'project';
-
-GRANT SELECT, INSERT, TRIGGER, UPDATE, DELETE ON TABLE * TO 'project'@'localhost';
+GRANT SELECT, INSERT, TRIGGER, UPDATE, DELETE ON TABLE `eventtrackerdb`.* TO 'project'@'localhost';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
@@ -70,8 +65,8 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `eventtrackerdb`;
-INSERT INTO `user` (`id`, `email`, `username`, `password`, `enabled`, `role`) VALUES (1, 'bandit@gmail.com', 'bandit', 'outside', 1, 'standard');
-INSERT INTO `user` (`id`, `email`, `username`, `password`, `enabled`, `role`) VALUES (2, 'coco@gmail.com', 'coco', 'mellon', 1, 'admin');
+INSERT INTO `user` (`id`, `email`, `username`, `password`, `enabled`, `role`) VALUES (1, 'leo@leo.leo', 'leo', '$2a$10$FhtHGknSCIsus5jcrc2oneAEKEpqPAIjgdZKGBCeZ8ICqmCjxha0O', 1, 'standard');
+INSERT INTO `user` (`id`, `email`, `username`, `password`, `enabled`, `role`) VALUES (2, 'zoey@zoey.zoey', 'zoey', '$2a$10$02gJztomC3AM4jEKeKcuEO8LEcH5TS2dHgQXvZ2EXDs4tRWFZu.Au', 1, 'admin');
 
 COMMIT;
 

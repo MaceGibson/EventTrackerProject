@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatAreYouDoing</title>
+<link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/styles.css">
+<script src="js/script.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>What Are You Doing</h1>
+        </div>
+    </header>
+
+    <main class="container">
+            <h2 style="text-align: center; padding: 1%">Your Task List</h2>
+        <table id="taskTable" class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Completed</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="taskList">
+                <!-- Tasks will be dynamically inserted here -->
+            </tbody>
+        </table>
+        <!-- First row of tiles -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="templateRow">
+                    <div class="template col-md-6" data-title="Exercise" data-description="Engage in physical activity to stay fit.">
+                    	<img src="css/exercise.png" alt="Exercise Image">
+                        <h3>Exercise</h3>
+                        <p>Engage in physical activity to stay fit.</p>
+                    </div>
+                    <div class="template col-md-6" data-title="Walk Dog" data-description="Explore nature and enjoy the outdoors by taking your dog for a walk.">
+                    	<img src="css/dog.png" alt="Dog Image">
+                        <h3>Walk Dog</h3>
+                        <p>Explore nature and enjoy the outdoors by taking your dog for a walk.</p>
+                    </div>
+                    
+                    <div class="template col-md-6" data-title="Vacation" data-description="Take a break and get away for a vacation.">
+                    	<img src="css/vacation.png" alt="Vacation Image">
+                        <h3>Vacation</h3>
+                        <p>Take a break and get away for a vacation.</p>
+                    </div>
+                    <div class="template col-md-6" data-title="Study" data-description="Dedicate time to learning new subjects or skills.">
+                    	<img src="css/study.png" alt="Study Image">
+                        <h3>Study</h3>
+                        <p>Dedicate time to learning new subjects or skills.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Second row of tiles -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="templateRow">
+                    <div class="template col-md-6" data-title="Read" data-description="Immerse yourself in a good book or informative articles.">
+                    	<img src="css/read.png" alt="read Image">
+                        <h3>Read</h3>
+                        <p>Immerse yourself in a good book or informative articles.</p>
+                    </div>
+                    <div class="template col-md-6" data-title="Pay Bills" data-description="Organize and pay your bills to stay on top of finances.">
+                    	<img src="css/bills.png" alt="bills Image">
+                        <h3>Pay Bills</h3>
+                        <p>Organize and pay your bills to stay on top of finances.</p>
+                    </div>
+                    <div class="template col-md-6" data-title="Meeting" data-description="Attend meetings to discuss important matters.">
+                    	<img src="css/meeting.png" alt="meeting Image">
+                        <h3>Meeting</h3>
+                        <p>Attend meetings to discuss important matters.</p>
+                    </div>
+                    
+                    <div class="template col-md-6" data-title="Medical Appointment" data-description="Attend appointment with medical services.">
+                    	<img src="css/medical.png" alt="medical Image">
+                        <h3>Medical Appointment</h3>
+                        <p>Attend appointment with medical services.</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <button id="addTaskButton">+</button>
+    </main>
+
+    <!-- Task Update Popup -->
+    <div id="updateTaskModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Update Task</h2>
+            <form id="updateTaskForm">
+                <label for="updateName">Name:</label>
+                <input type="text" id="updateName" name="updateName" required><br>
+                <label for="updateDescription">Description:</label>
+                <input type="text" id="updateDescription" name="updateDescription" required><br>
+                <button type="submit">Update</button>
+                <button type="button" id="deleteTaskBtn">Delete</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- New Task Popup -->
+    <div id="newTaskModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>New Task</h2>
+            <form id="newTaskForm">
+                <label for="newName">Name:</label>
+                <input type="text" id="newName" name="newName" required><br>
+                <label for="newDescription">Description:</label>
+                <input type="text" id="newDescription" name="newDescription" required><br>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
